@@ -5,13 +5,11 @@ import { flushSync } from "react-dom";
 import { FiChevronDown } from "react-icons/fi";
 
 import { useLenis } from "@/utils/lenis";
+import { prefersReducedMotion } from "@/utils/motion";
 import { navHeight, scrollBelowNav } from "@/utils/scroll";
 
 // Space left between the navbar and a heading scrolled into place.
 const HEADING_GAP = 24;
-
-const prefersReducedMotion = () =>
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 export default function TableOfContents({ items, variant }) {
   const [active, setActive] = useState(items[0]?.id);

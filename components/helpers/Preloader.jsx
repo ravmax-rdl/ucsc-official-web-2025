@@ -3,15 +3,20 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 import TextReveal from "./TextReveal";
 import miniLogo from "@/public/logo-mini-white.svg";
 
 const PreLoader = () => {
-  const [load, setLoad] = useState(true);
+  const pathname = usePathname();
+  // Readers arriving at an article from a shared link go straight to it.
+  const skip = pathname?.startsWith("/blog") ?? false;
+  const [load, setLoad] = useState(!skip);
 
   useGSAP(() => {
+    if (skip) return;
     const timeline = gsap.timeline();
 
     timeline.from(".preloader-logo", {
