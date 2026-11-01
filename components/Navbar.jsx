@@ -140,7 +140,7 @@ const Navbar = () => {
 
           <div onClick={handleClick}>
             <TransitionLink
-              href="#contact"
+              href="#contact-us"
               className="hover:bg-primary-blue/10 px-1 py-1 rounded-sm transition-color duration-200 uppercase text-primary-blue font-semibold text-xl"
             >
               Contact us

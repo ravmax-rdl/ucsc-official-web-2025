@@ -45,7 +45,7 @@ const Timeline = () => {
   }, []);
 
   return (
-    <section className="my-32 px-20">
+    <section className="my-32 px-20" id="timeline">
       {/* <div>
         <h2>Timeline</h2>
       </div> */}
