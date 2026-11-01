@@ -7,20 +7,14 @@
     --color-secondary-white: #EBEBEB;
 }
 
-/* Height of the fixed navbar. The desktop links wrap onto two lines below 1024px. */
+/* Height of the fixed navbar before the Navbar measures itself and overrides it. */
 :root {
     --nav-height: 56px;
 }
 
-@media (min-width: 48rem) {
-    :root {
-        --nav-height: 112px;
-    }
-}
-
 @media (min-width: 64rem) {
     :root {
-        --nav-height: 90px;
+        --nav-height: 64px;
     }
 }
 

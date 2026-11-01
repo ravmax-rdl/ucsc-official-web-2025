@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 import TransitionLink from "./helpers/TransitionLink";
 import { ieeeURL, navbarLinks } from "@/utils";
@@ -13,6 +14,27 @@ import ieeeLogo from "@/public/logo-ieee-blue.svg";
 const Navbar = () => {
   const [isOpened, setIsOpended] = useState(false);
   const mobileNav = useRef(null);
+  const desktopBar = useRef(null);
+  const mobileBar = useRef(null);
+  const pathname = usePathname();
+
+  // Keep --nav-height in step with the visible navbar: the desktop links wrap
+  // at some widths, so its height changes with the viewport and the link list.
+  useEffect(() => {
+    const bars = [desktopBar.current, mobileBar.current];
+    const update = () => {
+      const visible = bars.find((bar) => bar.offsetHeight > 0);
+      if (visible) {
+        document.documentElement.style.setProperty("--nav-height", `${visible.offsetHeight}px`);
+      }
+    };
+    const observer = new ResizeObserver(update);
+    bars.forEach((bar) => observer.observe(bar));
+    return () => observer.disconnect();
+  }, []);
+
+  const isActive = (link) =>
+    link.startsWith("/") && link !== "/" && pathname.startsWith(link.replace(/\/$/, ""));
   const handleClick = () => {
     if (!isOpened) {
       gsap.fromTo(
@@ -42,18 +64,19 @@ const Navbar = () => {
   };
   return (
     <>
-      <nav className="fixed w-full hidden md:flex gap-6 items-center justify-between px-8 py-2 backdrop-blur-lg z-20 bg-primary-white">
-        <div className="">
+      <nav ref={desktopBar} className="fixed w-full hidden lg:flex gap-4 xl:gap-6 items-center justify-between px-6 xl:px-8 py-2 backdrop-blur-lg z-20 bg-primary-white">
+        <div className="shrink-0">
           <TransitionLink href="/">
-            <Image src={miniLogo} width={140} height={60} alt="Logo" />
+            <Image src={miniLogo} width={140} height={60} alt="Logo" className="w-28 xl:w-[140px] h-auto" />
           </TransitionLink>
         </div>
 
-        <div className="flex gap-6 py-2 px-6 items-center justify-center text-primary-blue uppercase font-semibold">
+        <div className="flex gap-3 xl:gap-6 py-2 xl:px-6 items-center justify-center text-primary-blue uppercase font-semibold whitespace-nowrap text-sm xl:text-base">
           {navbarLinks.map(({ name, link }, index) => (
             <TransitionLink
               href={link}
               key={index}
+              aria-current={isActive(link) ? "page" : undefined}
               className="hover:bg-primary-blue/10 px-1 py-1 rounded-sm transition-color duration-200"
             >
               {name}
@@ -64,15 +87,15 @@ const Navbar = () => {
           <ContactButton />
         </div>
 
-        <div className="">
+        <div className="shrink-0">
           <Link href={ieeeURL} target="_blank" rel="noreferrer">
-            <Image src={ieeeLogo} width={80} height={40} alt="Logo" />
+            <Image src={ieeeLogo} width={80} height={40} alt="Logo" className="w-16 xl:w-20 h-auto" />
           </Link>
         </div>
       </nav>
 
       {/* Mobile Navbar */}
-      <nav className="flex md:hidden  w-full fixed top-0 z-20 bg-primary-white">
+      <nav ref={mobileBar} className="flex lg:hidden  w-full fixed top-0 z-20 bg-primary-white">
         <div className="py-4 px-3 justify-between  items-center flex w-full">
           <div>
             <svg
@@ -108,6 +131,7 @@ const Navbar = () => {
             <div key={link} onClick={handleClick}>
               <TransitionLink
                 href={link}
+                aria-current={isActive(link) ? "page" : undefined}
                 className="hover:bg-primary-blue/10 px-1 py-1 rounded-sm transition-color duration-200 uppercase text-primary-blue font-semibold text-xl"
               >
                 {name}

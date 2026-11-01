@@ -28,6 +28,10 @@ export const navbarLinks = [
     name: "past events",
     link: "#past-events",
   },
+  {
+    name: "blog",
+    link: "/blog/",
+  },
 ];
 
 export const whatweDo = [
