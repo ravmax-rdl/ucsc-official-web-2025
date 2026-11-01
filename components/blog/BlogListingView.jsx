@@ -36,7 +36,7 @@ export default function BlogListingView({
 
       <div
         data-blog-grid-top
-        className="mb-6 mt-10 flex scroll-mt-28 flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between"
+        className="mb-6 mt-10 flex scroll-mt-[calc(var(--nav-height)+1.5rem)] flex-col-reverse gap-4 md:flex-row md:items-center md:justify-between"
       >
         <TagChips tags={tags} active={tag} onChange={onTagChange} />
         <p aria-live="polite" className="shrink-0 text-sm">

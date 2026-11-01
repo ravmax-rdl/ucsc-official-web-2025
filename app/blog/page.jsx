@@ -1,3 +1,6 @@
+import { Suspense } from "react";
+
+import BlogListing from "@/components/blog/BlogListing";
 import BlogListingView from "@/components/blog/BlogListingView";
 import { getSummaries, getTags } from "@/lib/blog";
 
@@ -14,9 +17,14 @@ export const metadata = {
 };
 
 export default function BlogPage() {
+  const summaries = getSummaries();
+  const tags = getTags();
+
   return (
     <main className="pb-24 pt-[calc(var(--nav-height)+3rem)]">
-      <BlogListingView summaries={getSummaries()} tags={getTags()} />
+      <Suspense fallback={<BlogListingView summaries={summaries} tags={tags} />}>
+        <BlogListing summaries={summaries} tags={tags} />
+      </Suspense>
     </main>
   );
 }
