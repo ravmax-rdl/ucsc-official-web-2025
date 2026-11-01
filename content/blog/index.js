@@ -3,6 +3,7 @@
 import gamerush2019 from "./posts/gamerush-2019.js";
 import ieeeAndaharaya from "./posts/ieee-andaharaya.js";
 import ieeeDay2022 from "./posts/ieee-day-2022.js";
+import ieeeDay2026 from "./posts/ieee-day-2026.js";
 import ieeextreme18 from "./posts/ieeextreme-18.js";
 import infiniteLoop2 from "./posts/infinite-loop-2.js";
 import introductorySession2024 from "./posts/introductory-session-2024.js";
@@ -17,6 +18,7 @@ export const posts = [
   gamerush2019,
   ieeeAndaharaya,
   ieeeDay2022,
+  ieeeDay2026,
   ieeextreme18,
   infiniteLoop2,
   introductorySession2024,

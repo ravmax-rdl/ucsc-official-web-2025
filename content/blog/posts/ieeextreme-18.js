@@ -10,7 +10,6 @@ export default {
   imageFocus: "50% 40%",
   tags: ["competitions", "tech"],
   author: { name: "IEEE UCSC Media Team" },
-  featured: true,
   body: [
     {
       type: "p",
