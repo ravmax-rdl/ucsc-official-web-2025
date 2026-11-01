@@ -7,6 +7,23 @@
     --color-secondary-white: #EBEBEB;
 }
 
+/* Height of the fixed navbar before the Navbar measures itself and overrides it. */
+:root {
+    --nav-height: 56px;
+}
+
+@media (min-width: 64rem) {
+    :root {
+        --nav-height: 64px;
+    }
+}
+
+@media (min-width: 80rem) {
+    :root {
+        --nav-height: 66px;
+    }
+}
+
 /* Preserve the previous base styles during the Tailwind 4 migration. */
 @layer base {
     *, ::before, ::after, ::backdrop, ::file-selector-button {
@@ -19,11 +36,15 @@
 }
 
 
+/* Not position: fixed, which resets the scroll position to the top while the
+   page wipe plays. ScrollLock stops Lenis for the same period. */
 .no-scroll {
     overflow: hidden !important;
-    height: 100vh !important;
-    position: fixed !important;
-    width: 100vw !important;
+}
+
+/* Keep the scrollbar's space while it is hidden, so the page doesn't widen. */
+html:has(> body.no-scroll) {
+    scrollbar-gutter: stable;
 }
 
 body {
