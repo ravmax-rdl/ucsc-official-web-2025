@@ -1,9 +1,7 @@
 import Image from "next/image";
 
 import TransitionLink from "@/components/helpers/TransitionLink";
-
-// Titles longer than this get a smaller type size so they fit the hero.
-const LONG_TITLE = 60;
+import { LONG_TITLE } from "@/lib/blog/posts";
 
 export default function FeaturedPost({ post }) {
   const titleSize =
