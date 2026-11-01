@@ -19,6 +19,7 @@ export default function BlogListing({ summaries, tags }) {
 
   const tag = resolveTag(searchParams.get("tag"), tags);
   const [q, setQ] = useState(() => searchParams.get("q") ?? "");
+  const [limit, setLimit] = useState(PAGE_SIZE);
 
   const container = useRef(null);
   const timer = useRef(null);
@@ -62,20 +63,31 @@ export default function BlogListing({ summaries, tags }) {
 
   const handleTag = (slug) => {
     if (slug === tag) return;
+    setLimit(PAGE_SIZE);
     scrollPending.current = true;
     writeUrl(slug, q);
   };
 
   const handleQuery = (value) => {
+    setLimit(PAGE_SIZE);
     setQ(value);
     clearTimeout(timer.current);
     timer.current = setTimeout(() => writeUrl(tagRef.current, value), SEARCH_DELAY);
   };
 
   const handleClear = () => {
+    setLimit(PAGE_SIZE);
     clearTimeout(timer.current);
     setQ("");
     writeUrl(null, "");
+  };
+
+  const handleLoadMore = () => {
+    const first = limit; // index of the first new card
+    setLimit((current) => current + PAGE_SIZE);
+    requestAnimationFrame(() => {
+      container.current?.querySelectorAll(".blog-card a")[first]?.focus({ preventScroll: true });
+    });
   };
 
   return (
@@ -85,10 +97,11 @@ export default function BlogListing({ summaries, tags }) {
         tags={tags}
         tag={tag}
         q={q}
-        limit={PAGE_SIZE}
+        limit={limit}
         onTagChange={handleTag}
         onQueryChange={handleQuery}
         onClear={handleClear}
+        onLoadMore={handleLoadMore}
       />
     </div>
   );
