@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 
 import PostBody from "@/components/blog/PostBody";
 import PostHero from "@/components/blog/PostHero";
+import PostMotion from "@/components/blog/PostMotion";
 import ReadingProgress from "@/components/blog/ReadingProgress";
 import TableOfContents from "@/components/blog/TableOfContents";
 import TransitionLink from "@/components/helpers/TransitionLink";
@@ -49,6 +50,7 @@ export default async function PostPage({ params }) {
     // and move the desktop navbar, which is fixed without a top offset.
     <main className="pb-24 pt-(--nav-height)">
       <ReadingProgress />
+      <PostMotion />
       <PostHero post={summary} />
 
       <div className="mx-auto mt-12 max-w-7xl px-6 md:px-16 lg:grid lg:grid-cols-[220px_minmax(0,68ch)_220px] lg:justify-center lg:gap-12">
