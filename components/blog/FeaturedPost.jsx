@@ -2,11 +2,21 @@ import Image from "next/image";
 
 import TransitionLink from "@/components/helpers/TransitionLink";
 
+// Titles longer than this get a smaller type size so they fit the hero.
+const LONG_TITLE = 60;
+
 export default function FeaturedPost({ post }) {
+  const titleSize =
+    post.title.length > LONG_TITLE
+      ? "text-2xl md:text-4xl xl:text-5xl"
+      : "text-3xl md:text-5xl xl:text-6xl";
+
   return (
+    // overflow-clip, not overflow-hidden: the aspect ratio stays a minimum
+    // height, so a title that still doesn't fit makes the hero taller.
     <TransitionLink
       href={`/blog/${post.slug}/`}
-      className="featured-post group relative block aspect-[4/5] overflow-hidden bg-primary-blue text-primary-white md:aspect-video lg:aspect-[21/8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-blue"
+      className="featured-post group relative flex aspect-[4/5] flex-col justify-end overflow-clip bg-primary-blue text-primary-white md:aspect-video lg:aspect-[21/8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-blue"
     >
       <div className="featured-media absolute inset-x-0 -top-[8%] -bottom-[8%]">
         <Image
@@ -24,14 +34,14 @@ export default function FeaturedPost({ post }) {
         className="absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(to top, rgba(5,30,50,.85), rgba(5,30,50,.05) 60%)",
+            "linear-gradient(to top, rgba(5,30,50,.9), rgba(5,30,50,.55) 50%, rgba(5,30,50,.1))",
         }}
       />
-      <div className="absolute inset-x-6 bottom-6 flex max-w-4xl flex-col gap-3 md:inset-x-10 md:bottom-10">
+      <div className="relative flex max-w-4xl flex-col gap-3 p-6 md:p-10">
         <p className="text-xs font-semibold uppercase">
           {["Featured", ...post.tags.map((tag) => tag.label)].join(" · ")}
         </p>
-        <h2 className="text-3xl font-semibold uppercase leading-[1.05] [overflow-wrap:anywhere] md:text-5xl xl:text-6xl">
+        <h2 className={`${titleSize} font-semibold uppercase leading-[1.05] [overflow-wrap:anywhere]`}>
           {post.title}
         </h2>
         <p className="text-sm">
