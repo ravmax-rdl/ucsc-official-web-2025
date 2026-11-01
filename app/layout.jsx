@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { ReactLenis } from "@/utils/lenis";
 import Navbar from "@/components/Navbar";
 import PreLoader from "@/components/helpers/Preloader";
+import ScrollLock from "@/components/helpers/ScrollLock";
 import Transition from "@/components/helpers/Transition";
 import Footer from "@/components/Footer";
 
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
           className={`${raveo.variable} font-(family-name:--font-raveo) antialiased bg-primary-white font-light selection:bg-primary-blue selection:text-secondary-white`}
         >
           <div className="">
+            <ScrollLock />
             <Transition />
             <PreLoader />
             <Navbar />
