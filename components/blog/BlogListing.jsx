@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import BlogListingView from "./BlogListingView";
 import { PAGE_SIZE, resolveTag } from "@/lib/blog/posts";
 import { useLenis } from "@/utils/lenis";
+import { navHeight, scrollBelowNav } from "@/utils/scroll";
 
 const SEARCH_DELAY = 250;
 
@@ -34,20 +35,9 @@ export default function BlogListing({ summaries, tags }) {
     scrollPending.current = false;
 
     const top = container.current?.querySelector("[data-blog-grid-top]");
-    const navHeight = parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue("--nav-height"),
-    );
     // Only scroll when the top of the grid is hidden under the navbar.
-    if (!top || top.getBoundingClientRect().top >= navHeight) return;
-    if (!lenis) {
-      top.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-    // The browser's scroll anchoring can move the page during the render without
-    // Lenis noticing, so sync Lenis to the real position before animating.
-    const target = window.scrollY + top.getBoundingClientRect().top - navHeight - GRID_GAP;
-    lenis.scrollTo(window.scrollY, { immediate: true });
-    lenis.scrollTo(target);
+    if (!top || top.getBoundingClientRect().top >= navHeight()) return;
+    scrollBelowNav(lenis, top, { gap: GRID_GAP });
   }, [tag, lenis]);
 
   useEffect(() => () => clearTimeout(timer.current), []);

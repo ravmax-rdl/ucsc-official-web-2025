@@ -2,9 +2,11 @@ import { notFound } from "next/navigation";
 
 import PostBody from "@/components/blog/PostBody";
 import PostHero from "@/components/blog/PostHero";
+import ReadingProgress from "@/components/blog/ReadingProgress";
+import TableOfContents from "@/components/blog/TableOfContents";
 import TransitionLink from "@/components/helpers/TransitionLink";
 import { getAllPosts, getPost, getTags } from "@/lib/blog";
-import { toSummary, withHeadingIds } from "@/lib/blog/posts";
+import { getToc, toSummary, withHeadingIds } from "@/lib/blog/posts";
 
 export const dynamicParams = false;
 
@@ -39,17 +41,23 @@ export default async function PostPage({ params }) {
 
   const summary = toSummary(post, getTags());
   const blocks = withHeadingIds(post.body);
+  const toc = getToc(post.body);
+  const showToc = toc.length >= 3;
 
   return (
     // Padding, not a margin on the hero: the margin would collapse through <main>
     // and move the desktop navbar, which is fixed without a top offset.
     <main className="pb-24 pt-(--nav-height)">
+      <ReadingProgress />
       <PostHero post={summary} />
 
       <div className="mx-auto mt-12 max-w-7xl px-6 md:px-16 lg:grid lg:grid-cols-[220px_minmax(0,68ch)_220px] lg:justify-center lg:gap-12">
-        <aside className="post-toc-rail hidden lg:block" />
+        <aside className="post-toc-rail hidden lg:block">
+          {showToc && <TableOfContents items={toc} variant="rail" />}
+        </aside>
 
         <article className="post-article min-w-0">
+          {showToc && <TableOfContents items={toc} variant="panel" />}
           <PostBody blocks={blocks} />
 
           <TransitionLink
