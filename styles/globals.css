@@ -7,6 +7,29 @@
     --color-secondary-white: #EBEBEB;
 }
 
+/* Height of the fixed navbar. The desktop links wrap onto two lines below 1024px. */
+:root {
+    --nav-height: 56px;
+}
+
+@media (min-width: 48rem) {
+    :root {
+        --nav-height: 112px;
+    }
+}
+
+@media (min-width: 64rem) {
+    :root {
+        --nav-height: 90px;
+    }
+}
+
+@media (min-width: 80rem) {
+    :root {
+        --nav-height: 66px;
+    }
+}
+
 /* Preserve the previous base styles during the Tailwind 4 migration. */
 @layer base {
     *, ::before, ::after, ::backdrop, ::file-selector-button {
